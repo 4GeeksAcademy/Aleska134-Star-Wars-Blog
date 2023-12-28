@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import rigoImage from "../../img/rigo-baby.jpg";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import failImage from "../../img/failImage.jpg";
+import "../../styles/card.css"
 
 const Card = ({ item, category, index }) => {
   const { store, actions } = useContext(Context);
@@ -33,10 +34,22 @@ const Card = ({ item, category, index }) => {
 		event.target.src = fallbackImgLink;
 		};
     
-    const handleFavorite = (event) =>{
-      console.log(store.favorites)
-      
+    const handleFavorite = (item,name,categories) =>{
+      store.favorites.push(item);
+      console.log(store.favorites);
+      console.log(store.favorites.length);
+
     } 
+
+    const [style, setStyle] = useState("Favorite");
+ 
+    const changeStyle = () => {
+        console.log("you just clicked");
+        if (style !== "Favorite") setStyle("Favorite");
+        else setStyle("noFavorite");
+        console.log(style)
+    };
+
 	return(
 	 <div className="card">
       {category === "people" && (
@@ -73,9 +86,12 @@ const Card = ({ item, category, index }) => {
                 Learn more!
               </button>
             </Link>
-            <button onClick={handleFavorite} className="btn btn-light ms-5">
-              {" "}
-              <i className="fa-regular fa-heart" style={{ color: "#ff0f0f" }} />
+            <button onClick={()=>{
+              handleFavorite(item,item.name,category)
+              }} className="btn btn-light ms-5">
+              {" "} 
+              <i id="{style}" className="fa-regular fa-heart" onClick={()=>changeStyle()} style={{ color: "#ff0f0f" }} />
+              {/* style={{ color: "#ff0f0f" }} */}
             </button>
           </div>
         </>
@@ -108,7 +124,10 @@ const Card = ({ item, category, index }) => {
                 Learn more!
               </button>
             </Link>
-            <button className="btn btn-light ms-5">
+            <button onClick={()=>{
+              handleFavorite(item,item.name,category)
+              }} 
+              className="btn btn-light ms-5">
               {" "}
               <i className="fa-regular fa-heart" style={{ color: "#ff0f0f" }} />
             </button>
@@ -145,7 +164,10 @@ const Card = ({ item, category, index }) => {
                 Learn more!
               </button>
             </Link>
-            <button className="btn btn-light ms-5">
+            <button onClick={()=>{
+              handleFavorite(item,item.name,category)
+              }} 
+              className="btn btn-light ms-5">
               {" "}
               <i className="fa-regular fa-heart" style={{ color: "#ff0f0f" }} />
             </button>
