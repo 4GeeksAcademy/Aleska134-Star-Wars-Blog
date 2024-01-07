@@ -1,10 +1,21 @@
-import React, { useContext }from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect }from "react";
+import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import starWarsLogo from "../../img/Star-wars-logo.png";
 
-export const Navbar = () => {
+export const  Navbar = (item,category,index) => {
 	const { store, actions } = useContext(Context);
+
+	const deleteFavorite = (itemName) =>{
+			store.favorites.map((item,index) => {
+				if (item.name === itemName){
+					console.log('Este se debe eliminar -> ',itemName)
+					store.favorites.splice(index,1)
+				}
+			})
+			
+		}
+
 	return (
 		
 		<nav className="navbar navbar-light bg-light mb-3">
@@ -15,26 +26,31 @@ export const Navbar = () => {
 			</p>
 			</Link>
 			<div className="ml-auto">
-				{/* <Link to="/demo"> */}
 					<div className="btn-group dropstart">
 						<button type="button" className="btn btn-primary dropdown-toggle me-3" data-bs-toggle="dropdown" aria-expanded="false">
 							Favorites 
-							{/* Aqui debe ir un contador para los favoritos que se van agregando */}
-							<span className="badge bg-secondary">{store.favorites.length}</span>
+							{/* El contador no se actualiza :.(  */}
+							<span className="badge bg-secondary">
+								{store.favorites.length}
+							</span>
 						</button>
-						<ul className="dropdown-menu">
-							
-								{/* link al personaje */}
-								{/* {store.favorites.map((item)=>{ */}
-								{/* <Link to="/single/${character}/${item.id}"> */}
-								<li className="dropdown-item">F {' '} <button className="btn btn-outline-link text-dark border border-none"><i className="fa-sharp fa-solid fa-trash"/></button> </li>
-								 {/* })}  */}
-								{/* <button className="btn btn-outline-link text-dark border border-none">
-								 Debe ser dinamico, si se agrega a favoritos, se debe agregar a estos <lis> y se debe poder eliminar (solo mostrar el nombre y el link al personaje(etc))  */}
-							{/* </Link> */}
+						<ul className="dropdown-menu">	{store.favorites.map((item) => {
+										return (
+										// {/* link al personaje */}
+										// <Link to={`/single/${category}/${index}`}> como pasar la categoria y hacer que se muestren cuando se agregan y eliminan
+										<li key={index} className="dropdown-item">{item.name}
+											<button className="btn btn-outline-link text-dark border border-none">
+											<i className="fa-sharp fa-solid fa-trash" onClick={()=>{
+                                				deleteFavorite(item.name)
+                                				{console.log(store.favorites)}
+                            				}}/>
+											</button> 
+										</li>
+										//   </Link>
+									)
+									})}
 						</ul>
 					</div>
-
 			</div>
 		</nav>
 	);

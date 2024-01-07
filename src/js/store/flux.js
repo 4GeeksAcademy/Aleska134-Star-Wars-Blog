@@ -1,28 +1,28 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 	  store: {
-		demo: [
-		  {
-			title: "NULL",
-			background: "white",
-			initial: "white",
-		  },
-		  {
-			title: "PRIMERO",
-			background: "white",
-			initial: "white",
-		  },
-		  {
-			title: "SEGUNDO",
-			background: "white",
-			initial: "white",
-		  },
-		],
-  
 		people: [],
 		vehicles: [],
 		planets: [],
-		favorites: [],
+		favorites: [
+			{
+			name: "FIRST",
+			background: "white",
+			initial: "white"
+		},
+		{
+			"name": "Luke Skywalker",
+			"height": "172",
+			"mass": "77",
+			"hair_color": "blond",
+			"skin_color": "fair",
+			"eye_color": "blue",
+			"birth_year": "19BBY",
+			"gender": "male",
+			"category" : "people"
+		},
+
+	],
 	  },
 	  actions: {
 		loadData: () => {

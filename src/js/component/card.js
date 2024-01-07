@@ -4,12 +4,11 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import failImage from "../../img/failImage.jpg";
 import "../../styles/card.css"
+import { Navbar } from "./navbar";
 
 const Card = ({ item, category, index }) => {
   const { store, actions } = useContext(Context);
-
-
-  
+ 
 		let imageBaseUrl;
 
 	switch (category) {
@@ -34,13 +33,12 @@ const Card = ({ item, category, index }) => {
 		event.target.src = fallbackImgLink;
 		};
     
-    const handleFavorite = (item,name,categories) =>{
+    const handleFavorite = (item) =>{
       store.favorites.push(item);
-      console.log(store.favorites);
-      console.log(store.favorites.length);
-
+      console.log(store.favorites);    
     } 
 
+// try to change the heart color :(
     const [style, setStyle] = useState("Favorite");
  
     const changeStyle = () => {
@@ -78,8 +76,7 @@ const Card = ({ item, category, index }) => {
                 Eye color:{" "}
                 {item.eye_color.charAt(0).toUpperCase() +
                   item.eye_color.slice(1)}
-              </p>
-            
+              </p>     
             </div>
             <Link to={`/single/${category}/${index}`}>
               <button className="btn btn-outline-primary pe-4">
@@ -87,7 +84,7 @@ const Card = ({ item, category, index }) => {
               </button>
             </Link>
             <button onClick={()=>{
-              handleFavorite(item,item.name,category)
+              handleFavorite(item)
               }} className="btn btn-light ms-5">
               {" "} 
               <i id="{style}" className="fa-regular fa-heart" onClick={()=>changeStyle()} style={{ color: "#ff0f0f" }} />
@@ -96,6 +93,8 @@ const Card = ({ item, category, index }) => {
           </div>
         </>
       )}
+
+
       {category === "planets" && (
         <>
           <img
@@ -125,7 +124,7 @@ const Card = ({ item, category, index }) => {
               </button>
             </Link>
             <button onClick={()=>{
-              handleFavorite(item,item.name,category)
+              handleFavorite(item)
               }} 
               className="btn btn-light ms-5">
               {" "}
@@ -134,6 +133,8 @@ const Card = ({ item, category, index }) => {
           </div>
         </>
       )}
+
+      
       {category === "vehicles" && (
         <>
           <img
@@ -165,7 +166,7 @@ const Card = ({ item, category, index }) => {
               </button>
             </Link>
             <button onClick={()=>{
-              handleFavorite(item,item.name,category)
+              handleFavorite(item)
               }} 
               className="btn btn-light ms-5">
               {" "}
