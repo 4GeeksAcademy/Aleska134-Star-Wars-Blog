@@ -8,9 +8,8 @@ import Card from "../component/card";
 const Home = () => {
 	const {store, actions} = useContext(Context);
 	return(
-	// <div className="container-fluid mt-5 border border-dark">
 	<div>
-		<div className="container-md p-2 ms-4">
+		<div className="container-sm p-2 ms-4">
 			<h2>Characters</h2>
 				<div className = "mt-4 d-flex flex-wrap gap-5 overflow-y-auto ">
 					{store.people.map((item, index) => {
@@ -20,7 +19,7 @@ const Home = () => {
 				</div>
 		</div>	
 					
-		<div className="container-md p-2 ms-4 my-5">
+		<div className="container-sm p-2 ms-4 my-5">
 			<h2>Planets</h2>	
 				<div className = "mt-4 d-flex flex-wrap gap-5 overflow-y-auto">
 				{store.planets.map((item, index) => {
@@ -29,7 +28,7 @@ const Home = () => {
 				</div>
 		</div>
 
-		<div className="container-md p-2 ms-4 my-5">
+		<div className="container-sm p-2 ms-4 my-5">
 			<h2>Vehicles</h2>	
 				<div className = "mt-4 d-flex flex-wrap gap-5 overflow-y-auto">			
 				{store.vehicles.map((item, index) => {

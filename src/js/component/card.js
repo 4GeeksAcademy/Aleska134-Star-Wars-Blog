@@ -1,66 +1,59 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import rigoImage from "../../img/rigo-baby.jpg";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import failImage from "../../img/failImage.jpg";
-import "../../styles/card.css"
-import { Navbar } from "./navbar";
+import "../../styles/card.css";
 
 const Card = ({ item, category, index }) => {
   const { store, actions } = useContext(Context);
- 
-		let imageBaseUrl;
 
-	switch (category) {
-		case "people":
-		imageBaseUrl =
-			"https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/characters/";
-		break;
-		case "planets":
-		imageBaseUrl =
-			"https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/planets/";
-		break;
-		default:
-		imageBaseUrl =
-			"https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/vehicles/";
-		break;
-		}
+  let imageBaseUrl;
 
-		const imgLink = `${imageBaseUrl}${parseInt(index) + 1}.jpg`;
-		const fallbackImgLink = "https://qph.cf2.quoracdn.net/main-qimg-25822c155f1c07ce501bd75443059e06-lq"; // Replace with your actual fallback image URL
-	
-		const handleImageError = (event) => {
-		event.target.src = fallbackImgLink;
-		};
-    
-    const handleFavorite = (item) =>{
-      store.favorites.push(item);
-      console.log(store.favorites);    
-    } 
+  switch (category) {
+    case "people":
+      imageBaseUrl =
+        "https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/characters/";
+      break;
+    case "planets":
+      imageBaseUrl =
+        "https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/planets/";
+      break;
+    default:
+      imageBaseUrl =
+        "https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/vehicles/";
+      break;
+  }
 
-// try to change the heart color :(
-    const [style, setStyle] = useState("Favorite");
- 
-    const changeStyle = () => {
-        console.log("you just clicked");
-        if (style !== "Favorite") setStyle("Favorite");
-        else setStyle("noFavorite");
-        console.log(style)
-    };
+  const imgLink = `${imageBaseUrl}${parseInt(index) + 1}.jpg`;
+  const fallbackImgLink =
+    "https://qph.cf2.quoracdn.net/main-qimg-25822c155f1c07ce501bd75443059e06-lq"; 
 
-	return(
-	 <div className="card">
+  const handleImageError = (event) => {
+    event.target.src = fallbackImgLink;
+  };
+
+  const handleFavorite = (itemName) => {
+    let isDouble = store.favorites.find((item) => item.name === itemName)
+    if (isDouble === undefined){
+      actions.addFavorites(item, category, index);
+    }
+  };
+
+  return (
+    <div className="card">
       {category === "people" && (
         <>
-		  <img
+       
+          <img
             src={imgLink}
-			      className="card-img-top img-fluid"
+            className="card-img-top img-fluid"
             onError={handleImageError}
-            style={{width: "400px",height:"400px"}}
+            style={{ width: "400px", height: "400px" }}
           />
           <div className="card-body container-md">
             <h5 className="card-title">
-              Name: {" "}{item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+              Name: {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
             </h5>
             <div className="card_text container-md">
               <p className="p-0 m-0">
@@ -76,36 +69,37 @@ const Card = ({ item, category, index }) => {
                 Eye color:{" "}
                 {item.eye_color.charAt(0).toUpperCase() +
                   item.eye_color.slice(1)}
-              </p>     
+              </p>
             </div>
             <Link to={`/single/${category}/${index}`}>
               <button className="btn btn-outline-primary pe-4">
                 Learn more!
               </button>
             </Link>
-            <button onClick={()=>{
-              handleFavorite(item)
-              }} className="btn btn-light ms-5">
-              {" "} 
-              <i id="{style}" className="fa-regular fa-heart" onClick={()=>changeStyle()} style={{ color: "#ff0f0f" }} />
-              {/* style={{ color: "#ff0f0f" }} */}
+            <button
+              onClick={() => {
+                handleFavorite(item.name);
+              }}
+              className="btn btn-light ms-5"
+            >
+              {" "}
+              <i className="fa-regular fa-heart" style={{ color: "#ff0f0f" }}/>    
             </button>
           </div>
         </>
       )}
 
-
       {category === "planets" && (
         <>
           <img
             src={imgLink}
-			      className="card-img-top img-fluid"
+            className="card-img-top img-fluid"
             onError={handleImageError}
-            style={{width: "400px",height:"400px"}}
+            style={{ width: "400px", height: "400px" }}
           />
           <div className="card-body container-md">
             <h5 className="card-title">
-              Name: {" "}{item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+              Name: {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
             </h5>
             <div className="card_text container-md">
               <p className="p-0 m-0">
@@ -123,10 +117,12 @@ const Card = ({ item, category, index }) => {
                 Learn more!
               </button>
             </Link>
-            <button onClick={()=>{
-              handleFavorite(item)
-              }} 
-              className="btn btn-light ms-5">
+            <button
+              onClick={() => {
+                handleFavorite(item.name);
+              }}
+              className="btn btn-light ms-5"
+            >
               {" "}
               <i className="fa-regular fa-heart" style={{ color: "#ff0f0f" }} />
             </button>
@@ -134,19 +130,17 @@ const Card = ({ item, category, index }) => {
         </>
       )}
 
-      
       {category === "vehicles" && (
         <>
           <img
             src={imgLink}
-			      className="card-img-top img-fluid"
+            className="card-img-top img-fluid"
             onError={handleImageError}
-            style={{width: "400px",height:"400px"}}
+            style={{ width: "400px", height: "400px" }}
           />
           <div className="card-body container-md">
             <h5 className="card-title">
-              Name:{" "}
-              {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+              Name: {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
             </h5>
             <div className="card_text container-md">
               <p className="p-0 m-0">
@@ -165,10 +159,12 @@ const Card = ({ item, category, index }) => {
                 Learn more!
               </button>
             </Link>
-            <button onClick={()=>{
-              handleFavorite(item)
-              }} 
-              className="btn btn-light ms-5">
+            <button
+              onClick={() => {
+                handleFavorite(item.name);
+              }}
+              className="btn btn-light ms-5"
+            >
               {" "}
               <i className="fa-regular fa-heart" style={{ color: "#ff0f0f" }} />
             </button>
@@ -176,7 +172,7 @@ const Card = ({ item, category, index }) => {
         </>
       )}
     </div>
-  )
+  );
 };
 
 export default Card;

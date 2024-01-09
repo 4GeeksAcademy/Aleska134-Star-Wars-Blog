@@ -4,25 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		people: [],
 		vehicles: [],
 		planets: [],
-		favorites: [
-			{
-			name: "FIRST",
-			background: "white",
-			initial: "white"
-		},
-		{
-			"name": "Luke Skywalker",
-			"height": "172",
-			"mass": "77",
-			"hair_color": "blond",
-			"skin_color": "fair",
-			"eye_color": "blue",
-			"birth_year": "19BBY",
-			"gender": "male",
-			"category" : "people"
-		},
-
-	],
+		favorites: [],
 	  },
 	  actions: {
 		loadData: () => {
@@ -42,6 +24,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 			.then((data) => setStore({ planets: data.results }))
 			.catch((err) => console.error(err));
 		},
+		addFavorites: (item, category,index) => {
+		  console.log(item);
+		  let store = getStore();
+		  item["category"] = category;
+		  item["index"] = index;
+		  store.favorites.push(item);
+		  setStore(store);
+		},
+		deleteFavorites:(newfavorites) =>{
+		  setStore({favorites: newfavorites});
+		}
 	  },
 	};
   };
